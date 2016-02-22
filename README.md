@@ -21,3 +21,6 @@ $ docker-compose up
 ```sh
 $ docker exec dockercomposelumen_php_1 composer install -d /app
 ```
+```sh
+sudo docker exec dockercomposelumen_php_1 php /app/artisan migrate:install
+```
