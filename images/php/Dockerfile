@@ -1,12 +1,16 @@
 FROM php:fpm
-RUN apt-get update && apt-get install -y libmcrypt-dev
+RUN apt-get update && apt-get install -y libmcrypt-dev git
+
+RUN apt-get install -y zlib1g-dev \
+    && docker-php-ext-install zip
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # lumen packages
-RUN apt-get install -y memcached php5-memcached php5-memcache libmemcached11 libmemcachedutil2 build-essential libmemcached-dev libz-dev 
+
 RUN docker-php-ext-install mcrypt mbstring tokenizer pdo pdo_mysql
-RUN pecl install apcu memcached && \
-	echo 'extension = apcu.so' > /usr/local/etc/php/conf.d/apcu.ini && \
-	echo 'extension = memcached.so' > /usr/local/etc/php/conf.d/memcached.ini
-RUN apt-get update && apt-get install -y libmemcached-dev \
-    && pecl install memcached \
-    && docker-php-ext-enable memcached
+
+RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \
+  && cd /usr/src/php/ext/memcached && git checkout -b php7 origin/php7 \
+  && docker-php-ext-configure memcached \
+  && docker-php-ext-install memcached 
