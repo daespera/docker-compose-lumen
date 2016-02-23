@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 use App\Http\Traits\Model\ModelEventThrower;
+use Cache;
 
 class User extends Model implements
     AuthenticatableContract,
@@ -37,5 +38,8 @@ class User extends Model implements
         'password',
     ];
 
+    public function retrieve ($id){
+        return Cache::store('memcached')->get('user-'.$id);
+    }
 
 }

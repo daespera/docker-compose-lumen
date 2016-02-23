@@ -17,6 +17,11 @@ trait CrudTrait {
         return $this->model->toarray();
     }
 
+    public function retrieve($id)
+    {     
+        return $this->model->find($id)->toarray();
+    }
+
     public function update(Request $request)
     {       
 

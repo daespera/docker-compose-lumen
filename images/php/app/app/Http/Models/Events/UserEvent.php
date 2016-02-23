@@ -10,7 +10,9 @@ class UserEvent
        //sync to somewhere
         //$value = Cache::get('key');
         //print_r($value);
-        $value = Cache::store('memcached')->put('key', 'value', 10);
+        Cache::store('memcached')->forever('user-'.$user->id, $user->toArray());
+        /*$value = Cache::store('memcached')->pull('user-'.$user->id);
         print_r($value);
+        exit();*/
     }
 }

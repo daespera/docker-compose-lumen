@@ -12,11 +12,18 @@ class UserController extends BaseController
     
     private $model;
 
-    use CrudTrait;
+    use CrudTrait {
+        retrieve as retrieve2;
+    }
 
     public function __construct(Request $request)
     {
         $this->model = new User;
+    }
+
+    public function retrieve($id)
+    {     
+        return $this->model->retrieve($id);
     }
 
     public function verify($username, $password)

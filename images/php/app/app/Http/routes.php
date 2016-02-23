@@ -16,8 +16,10 @@ use Illuminate\Http\Response;
 $app->get('/',[ function () use ($app) {
    error_reporting(E_ALL & ~E_NOTICE); 
 
-Cache::store('memcahed')->put('bar', 'baz', 10);
-
+	$mc = new Memcached(); 
+	$mc->addServer('cache', 11211); 
+	$version = $mc->getVersion();
+	print_r($version);
 }]);
 
 $app->post('oauth/access_token', function() {
@@ -31,6 +33,11 @@ $app->group(['prefix' => 'api/v1'], function () use ($app) {
 	$app->post('User', [
 		'middleware' => ['oauth'],
 		'uses' => 'App\Http\Controllers\UserController@create'
+	]);
+
+	$app->get('User/{id}', [
+		'middleware' => ['oauth'],
+		'uses' => 'App\Http\Controllers\UserController@retrieve'
 	]);
 
 	/*$app->get('{module}', [
