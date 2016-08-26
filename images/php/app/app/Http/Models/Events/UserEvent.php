@@ -15,4 +15,9 @@ class UserEvent
         print_r($value);
         exit();*/
     }
+
+    public function updated(User $user){
+       Cache::store('memcached')->pull('user-'.$user->id);
+       Cache::store('memcached')->forever('user-'.$user->id, $user->toArray());
+    }
 }

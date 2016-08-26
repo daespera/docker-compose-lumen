@@ -18,3 +18,4 @@ RUN apt-get install -y libmemcached-dev \
     && ./configure \
     && make \
     && echo "extension=/tmp/php-memcached/modules/memcached.so" > /usr/local/etc/php/conf.d/memcached.ini
+

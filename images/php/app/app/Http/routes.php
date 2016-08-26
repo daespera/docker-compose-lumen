@@ -13,6 +13,9 @@
 
 use Illuminate\Http\Response;
 
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+
 $app->get('/',[ function () use ($app) {
    error_reporting(E_ALL & ~E_NOTICE); 
 
@@ -20,25 +23,48 @@ $app->get('/',[ function () use ($app) {
 	$mc->addServer('cache', 11211); 
 	$version = $mc->getVersion();
 	print_r($version);
+
+
+
+
+$signer = new Sha256();
+
+$token = (new Builder())->setIssuer('http://example.com') // Configures the issuer (iss claim)
+                        ->setAudience('http://example.org') // Configures the audience (aud claim)
+                        ->setId('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+                        ->setIssuedAt(time()) // Configures the time that the token was issue (iat claim)
+                        ->setNotBefore(time() + 60) // Configures the time that the token can be used (nbf claim)
+                        ->setExpiration(time() + 3600) // Configures the expiration time of the token (exp claim)
+                        ->set('uid', 1) // Configures a new claim, called "uid"
+                        ->sign($signer, 'testing') // creates a signature using "testing" as key
+                        ->getToken(); // Retrieves the generated token
+
+print_r($token);
+
+
+
+
+
 }]);
 
 $app->post('oauth/access_token', function() {
     return response()->json(Authorizer::issueAccessToken());
 });
 
-//users
-$app->group(['prefix' => 'api/v1'], function () use ($app) {
+$app->group(['middleware' => ['oauth'],'prefix' => 'api/v1'], function () use ($app) {
 	
-	
-	$app->post('User', [
-		'middleware' => ['oauth'],
+    //users	
+	$app->post('users', [
 		'uses' => 'App\Http\Controllers\UserController@create'
 	]);
 
-	$app->get('User/{id}', [
-		'middleware' => ['oauth'],
+	$app->get('users[/{id}]', [
 		'uses' => 'App\Http\Controllers\UserController@retrieve'
 	]);
+
+    $app->put('users/{id}', [
+        'uses' => 'App\Http\Controllers\UserController@update'
+    ]);
 
 	/*$app->get('{module}', [
 		'middleware' => ['oauth'],

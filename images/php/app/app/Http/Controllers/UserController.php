@@ -12,8 +12,16 @@ class UserController extends BaseController
     
     private $model;
 
+    const MODEL = 'App\Http\Models\User';
+
+    protected $validationRules = [
+                'name' => 'required', 
+                'email' => 'required|email|unique:users', 
+                'password' => 'required'
+                ];
+
     use CrudTrait {
-        retrieve as retrieve2;
+        retrieve as retrieve_db;
     }
 
     public function __construct(Request $request)
@@ -21,9 +29,16 @@ class UserController extends BaseController
         $this->model = new User;
     }
 
-    public function retrieve($id)
+    public function retrieve(Request $request,$id = null)
     {     
-        return $this->model->retrieve($id);
+        if(empty($id))
+            return $this->retrieve_db($request,$id);
+        $response = [
+            'code' => 200,
+            'status' => 'succcess',
+            'data' => (new User)->retrieve($id)
+            ];
+        return response()->json($response, $response['code']);
     }
 
     public function verify($username, $password)

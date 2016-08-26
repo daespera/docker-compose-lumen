@@ -10,6 +10,7 @@ php:
   volumes:
     - ./images/php/app:/app
   working_dir: /app/public
+  command:  chown www-data:www-data -R ../storage/ 
   command: php-fpm
   links:
     - db
