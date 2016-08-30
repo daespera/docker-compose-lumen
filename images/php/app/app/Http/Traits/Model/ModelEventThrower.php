@@ -23,7 +23,7 @@ trait ModelEventThrower {
             static::$eventName(function (Model $model) use ($eventName) {
                 try {
                     $reflect = new \ReflectionClass($model);
-                    Event::fire((new ModelEvent())->created($model));
+                    Event::fire((new ModelEvent())->$eventName($model));
                 } catch (\Exception $e) {
                     return true;
                 }
@@ -45,6 +45,7 @@ trait ModelEventThrower {
 
         return [
             'created',
+            'saving',
             'updated',
             'deleted',
         ];

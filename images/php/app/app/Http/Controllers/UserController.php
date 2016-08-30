@@ -6,6 +6,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Http\Models\User;
 use App\Http\Traits\Controller\CrudTrait;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
@@ -43,7 +44,13 @@ class UserController extends BaseController
 
     public function verify($username, $password)
     {
-        return User::where('email', $username)->firstOrFail()->id;
+        $user = User::where('email', $username)->first();
+
+        if($user && Hash::check($password, $user->password)){
+            return $user->id;
+        }
+
+        return false;
     }
     
 }

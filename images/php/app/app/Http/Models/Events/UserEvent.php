@@ -3,6 +3,7 @@ namespace App\Http\Models\Events;
 
 use App\Http\Models\User;
 use Cache;
+use Illuminate\Support\Facades\Hash;
 
 class UserEvent
 {
@@ -14,6 +15,10 @@ class UserEvent
         /*$value = Cache::store('memcached')->pull('user-'.$user->id);
         print_r($value);
         exit();*/
+    }
+
+    public function saving(User $user){
+        $user->password = Hash::make($user->password);
     }
 
     public function updated(User $user){

@@ -24,7 +24,18 @@ class ModelEvent extends Event
   
     public function updated(Model $model)
     {
-        //Implement logic
+        $array = explode('\\',get_class($model));
+        $class = 'App\\Http\\Models\\Events\\' . end($array). 'Event';
+          $classInstance = new $class();    
+          $classInstance->updated($model);
+    }
+
+    public function saving(Model $model)
+    {
+        $array = explode('\\',get_class($model));
+        $class = 'App\\Http\\Models\\Events\\' . end($array). 'Event';
+          $classInstance = new $class();    
+          $classInstance->saving($model);
     }
 
     public function deleted(Model $model)
