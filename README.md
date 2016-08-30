@@ -30,3 +30,9 @@ sudo docker exec dockercomposelumen_php_1 php /app/artisan migrate:install
 ```sh
 sudo docker exec dockercomposelumen_php_1 php /app/artisan migrate
 ```
+
+## Data Seeding
+
+```sh
+sudo docker exec dockercomposelumen_php_1 php /app/artisan db:seed
+```
