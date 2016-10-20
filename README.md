@@ -19,20 +19,20 @@ $ docker-compose build
 $ docker-compose up
 ```
 ```sh
-$ docker exec dockercomposelumen_php_1 composer install -d /app
+$ docker exec lumen-php composer install -d /app
 ```
 
 ## Data Migration
 
 ```sh
-sudo docker exec dockercomposelumen_php_1 php /app/artisan migrate:install
+sudo docker exec lumen-php php /app/artisan migrate:install
 ```
 ```sh
-sudo docker exec dockercomposelumen_php_1 php /app/artisan migrate
+sudo docker exec lumen-php php /app/artisan migrate
 ```
 
 ## Data Seeding
 
 ```sh
-sudo docker exec dockercomposelumen_php_1 php /app/artisan db:seed
+sudo docker exec lumen-php php /app/artisan db:seed
 ```

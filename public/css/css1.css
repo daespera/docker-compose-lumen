@@ -1,0 +1,36 @@
+div {
+    border: 2px solid red;
+}
+
+.navigation {
+    margin-left: 600px;
+    padding-right: 50px;
+    position: absolute;
+    top: 50;
+    right: 0;
+
+}
+
+.navigation ul {
+    list-style-type: none;
+}
+.header {
+    margin: 0 175px 0 110px;
+    position: relative;
+}
+.header .site-banner img {
+    max-width: 100.1%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+.content {
+    margin: 0 175px 0 110px;
+    position: relative;
+}
+.footer {
+    margin: 0 175px 0 110px;
+    position: relative;
+}
